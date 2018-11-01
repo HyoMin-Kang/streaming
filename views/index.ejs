@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 m-auto">
+          <h1 class="text-center display-4 my-4">Video Uploads</h1>
+          <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="custom-file mb-3">
+              <input type="file" class="custom-file-input" name="videofile" id="file">
+              <label class="custom-file-label">Choose video file</label>
+            </div>
+            <input type="submit" class="btn btn-primary btn-block" value="Submit">
+          </form>
+        </div>
+      </div><br>
+
+      <% if(files) { %>
+        <% files.forEach(function(file) { %>
+          <div class="row">
+            <div class="col-md-6 m-auto">
+              <ul class="list-group">
+                <% if(file.isVideo) { %>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <a href="/player/<%= file.filename %>"><%= file.filename %></a>
+                <% } else { %>
+                  <%= file.filename %>
+                <% } %>
+                  <form action="/files/<%= file._id %>?_method=DELETE" method="post">
+                    <button class="btn btn-sm btn-danger">Remove</button>
+                  </form>
+                  </li>
+              </ul>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p>No files to show</p>
+      <% } %>
+    </div>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</html>
