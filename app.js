@@ -89,21 +89,21 @@ app.get('/files', (req, res) => {
 
 app.get('/player/:filename', (req, res) => {
   gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-      if(!file || file.length === 0) {
-        return res.status(404).json({
-          err: 'No file exists'
-        });
-      }
-      if(file.contentType === 'video/mp4') {
-        // Read output to browser
-        const readstream = gfs.createReadStream(file.filename);
-        res.set('Content-Type', file.contentType);
-        return readstream.pipe(res);
-      } else {
-        res.status(404).json({
-          err: 'Not an video'
-        });
-      }
+    if(!file || file.length === 0) {
+      return res.status(404).json({
+        err: 'No file exists'
+      });
+    }
+    if(file.contentType === 'video/mp4') {
+      // Read output to browser
+      const readstream = gfs.createReadStream(file.filename);
+      res.set('Content-Type', file.contentType);
+      return readstream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: 'Not an video'
+      });
+    }
   });
 });
 
